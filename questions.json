@@ -1,0 +1,28 @@
+[
+  {
+    "question": "What is this document about?",
+    "must_contain": ["document"]
+  },
+  
+  {
+    "question": "What is the document about?",
+    "must_contain": ["document"]
+  },
+  {
+    "question": "What is the refund policy?",
+    "must_contain": ["not present"]
+  },
+  {
+    "question": "Who is the CEO?",
+    "must_contain": ["not present"]
+  },
+  {
+    "question": "What is the total revenue?",
+    "must_contain": ["not present"]
+  },
+  {
+    "question": "What is the company's secret plan for Mars colonization?",
+    "must_contain": ["not present"]
+  }
+
+]

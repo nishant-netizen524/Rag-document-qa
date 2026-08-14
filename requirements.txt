@@ -1,0 +1,8 @@
+streamlit>=1.37
+openai>=1.40
+faiss-cpu>=1.8
+pdfplumber>=0.11
+pypdf>=4.0
+python-dotenv>=1.0
+requests>=2.31
+numpy>=1.26,<2
