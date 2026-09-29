@@ -7,7 +7,7 @@ class Settings:
     def __init__(self):
         self.api_key = os.getenv("OPENROUTER_API_KEY","")
         self.embedding_model = os.getenv("EMBEDDING_MODEL","openai/text-embedding-3-small")
-        self.llm_model = os.getenv("LLM_MODEL","gpt-4o-mini")
+        self.llm_model = os.getenv("LLM_MODEL","openai/gpt-4o-mini")
         self.temperature = float(os.getenv("TEMPERATURE","0.2"))
         self.chunk_size = int(os.getenv("CHUNK_SIZE","600"))
         self.chunk_overlap = int(os.getenv("CHUNK_OVERLAP","90"))
