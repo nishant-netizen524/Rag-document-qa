@@ -3,26 +3,41 @@
     "question": "What is this document about?",
     "must_contain": ["document"]
   },
-  
-  {
-    "question": "What is the document about?",
-    "must_contain": ["document"]
-  },
+
   {
     "question": "What is the refund policy?",
-    "must_contain": ["not present"]
+    "expect_absent":true
+  },
+
+  {
+    "question": "What does JSON stand for?",
+    "must_contain": ["JavaScript Object Notation"]
+  },
+
+  {
+    "question": "Who is known as the father of JSON?",
+    "must_contain": ["Douglas Crockford"]
+  },
+
+  {
+    "question": "What is the main purpose of JSON?",
+    "must_contain": ["data interchange format"]
+  },
+  {
+    "question": "What is the difference between JSON and XML?",
+    "must_contain": ["JSON is lightweight", "XML is verbose"]
   },
   {
     "question": "Who is the CEO?",
-    "must_contain": ["not present"]
+    "must_contain": ["Mr. Arun Kumar"]
   },
   {
     "question": "What is the total revenue?",
-    "must_contain": ["not present"]
+    "expect_absent": true
   },
   {
     "question": "What is the company's secret plan for Mars colonization?",
-    "must_contain": ["not present"]
+    "expect_absent": true
   }
 
 ]

@@ -83,11 +83,17 @@ def main(pdf_path: str, questions_path: str):
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": build_user_prompt(question, retrieved)},
         ]
-        try:
-            answer = llm.chat(messages).lower()    # To stop LLM request fails after retries
-        except Exception as exc:
-            print(f"FAIL (LLM error): {question} -> {exc}")
-            failed +=1
+        answer = llm.chat(messages).lower()
+
+        expect_absent = q.get("expect_absent", False)
+        if expect_absent:
+            refused = ("not present" in answer) or ("no relevant" in answer)
+            if refused:
+                passed += 1
+                print(f"PASS (correct refusal): {question}")
+            else:
+                failed += 1
+                print(f"FAIL (should have refused): {question}")
             continue
         missing = [kw for kw in q.get("must_contain", []) if kw.lower() not in answer]
         if missing:
