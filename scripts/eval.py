@@ -67,7 +67,13 @@ def main(pdf_path: str, questions_path: str):
         if not question:
             print("SKIP: question entry has no 'question' field")
             continue
+        if q.get("expect_absent"):
+            if "not present" in answer:
+                print(f"PASS (correct refusal): {question}")
+                passed +=1
 
+            else:
+                print(f"FAIL (should have refused):{question}")
         retrieved = retriever.retrieve(question)
         if not retrieved:
             print(f"FAIL (no retrieval): {question}")
@@ -80,7 +86,7 @@ def main(pdf_path: str, questions_path: str):
         try:
             answer = llm.chat(messages).lower()    # To stop LLM request fails after retries
         except Exception as exc:
-            print(f"FAIL (LLM error): {q['question']} -> {exc}")
+            print(f"FAIL (LLM error): {question} -> {exc}")
             failed +=1
             continue
         missing = [kw for kw in q.get("must_contain", []) if kw.lower() not in answer]
@@ -89,7 +95,7 @@ def main(pdf_path: str, questions_path: str):
             failed +=1
         else:
             passed += 1
-            print(f"PASS: {q['question']}")
+            print(f"PASS: {question}")
     total_q = len(questions)
     print()
     print(f"\nScore: {passed}/{total_q} ({100 * passed / max(total_q, 1):.0f}%)")
