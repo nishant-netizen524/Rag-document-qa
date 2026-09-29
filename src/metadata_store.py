@@ -9,7 +9,7 @@ _SCHEMA ="""
 CREATE TABLE IF NOT EXISTS documents(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     filename TEXT NOT NULL,
-    file_hash text TEXT NOT NULL UNIQUE,
+    file_hash TEXT NOT NULL UNIQUE,
     page_count INTEGER,
     created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
@@ -50,7 +50,10 @@ class MetadataStore:
             cur = conn.execute(
                 "INSERT INTO documents (filename,file_hash,page_count) VALUES (?,?,?)",(filename,file_hash,page_count),)
             
-            return cur.lastrowid
+            row_id = cur.lastrowid
+            if row_id is None:
+                raise RuntimeError("Failed to insert document")
+            return row_id
 
     def add_chunks(self, rows: list[tuple]):
             
@@ -114,17 +117,18 @@ class MetadataStore:
 
      return [dict(row) for row in rows]
 
-def delete_document(self, doc_id: int) -> None:
-    """
-    Delete one document and all of its chunks.
-    """
-    with self._connect() as conn:
-        conn.execute(
-            "DELETE FROM chunks WHERE doc_id = ?",
-            (doc_id,),
-        )
+    def delete_document(self, doc_id: int) -> None:
 
-        conn.execute(
-            "DELETE FROM documents WHERE id = ?",
-            (doc_id,),
-        ) 
+        """
+        Delete one document and all of its chunks.
+        """
+        with self._connect() as conn:
+            conn.execute(
+                "DELETE FROM chunks WHERE doc_id = ?",
+                (doc_id,),
+            )
+
+            conn.execute(
+                "DELETE FROM documents WHERE id = ?",
+                (doc_id,),
+            ) 
