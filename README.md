@@ -34,7 +34,7 @@ A Retrieval-Augmented Generation app that lets users upload PDFs and ask questio
 ## Evaluation
 
 - bash
-  python scripts/eval.py dl.pdf questions.json
+  python scripts/eval.py sample/sample_report.pdf questions.json
 
 ## Known Limitations
 

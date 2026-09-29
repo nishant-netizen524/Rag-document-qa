@@ -304,9 +304,7 @@ def render_document_manager(
     metadata: MetadataStore,
     vector_store: VectorStore,
 ):
-    """
-    Phase 6: Show indexed documents and delete individual documents.
-    """
+    
     docs = metadata.list_documents()
 
     if not docs:
@@ -439,7 +437,7 @@ def main():
                 st.markdown(answer)
 
             else:
-                # Phase 2: rewrite follow-up questions for better retrieval
+                
                 search_query = rewrite_search_query(
                     prompt,
                     history,
@@ -466,7 +464,7 @@ def main():
                     response_box = st.empty()
 
                     try:
-                        # Phase 3: streaming answer
+                        
                         for token in llm.chat_stream(messages):
                             answer += token
                             response_box.markdown(answer + "▌")
@@ -478,7 +476,7 @@ def main():
 
                         sources = chunks
 
-                        # Phase 7: better source display
+                        
                         render_sources(sources)
 
                     except Exception as exc:
