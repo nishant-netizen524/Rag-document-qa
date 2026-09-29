@@ -45,10 +45,12 @@ class VectorStore:
             return
         if self.index is None:  # lazily created once we know the dimension
             self.index = faiss.IndexIDMap(faiss.IndexFlatIP(vectors.shape[1]))
+        if vectors.shape[1] != self.index.d:
+            raise ValueError(
+                f"Embedding dimension mismatch ({vectors.shape[1]} vs {self.index.d}). "
+                "Clear all data before switching embedding models."
+            )
         self.index.add_with_ids(vectors, np.asarray(ids, dtype="int64"))
-        if self.index is not None and vectors.shape[1] != self.index.d:
-            raise ValueError(f"Embedding dimension mismatch ({vectors.shape[1]} vs {self.index.d}). ""Clear all data before switching embedding models.")
-
 
     def search(self, query_vector: np.ndarray, k: int):
         """Returns (scores, chunk_ids). Empty arrays when nothing is indexed."""
@@ -60,6 +62,8 @@ class VectorStore:
     def save(self):
         """Write atomically: temp file + rename, so a crash mid-save can
         never leave a half-written index at the real path."""
+        if self.index is None:
+            return
         os.makedirs(os.path.dirname(self.index_path), exist_ok=True)
         tmp_path = self.index_path + ".tmp"
         faiss.write_index(self.index, tmp_path)
