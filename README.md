@@ -1,3 +1,5 @@
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://https://rag-document-app-ayq9kotedvkfqnzcwx6jrf.streamlit.app/)
+
 # RAG Document Q&A
 
 A Retrieval-Augmented Generation app that lets users upload PDFs and ask questions with page-level citations.
